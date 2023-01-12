@@ -3,10 +3,10 @@ import { StyleSheet, Image, View } from 'react-native'
 import Images from '@assets/images';
 
 const Logo = ({ size, ...otherProps }) => {
-
+    
     let log_style = {};
-
-    switch (size) {
+    
+    switch (size){
         case 'xs':
             log_style = styles.xs
             break;
@@ -22,7 +22,7 @@ const Logo = ({ size, ...otherProps }) => {
     }
     return (
         <View {...otherProps}>
-            <Image source={Images.icon} style={log_style} />
+            <Image source={Images.logo} style={log_style} />
         </View>
     )
 }
@@ -31,12 +31,12 @@ export default Logo
 
 const styles = StyleSheet.create({
     xs: {
-        width: 217,
-        height: 50
+        width: 40,
+        height: 40
     },
     sm: {
-        width: 165,
-        height: 38,
+        width: 150,
+        height: 53,
     },
     md: {
         width: 250,

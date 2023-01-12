@@ -1,49 +1,42 @@
 import React, { useContext } from 'react'
-import { TouchableOpacity, StatusBar } from 'react-native';
-import { Header, Icon, Text } from 'react-native-elements';
-import { Context as AuthContext } from '../context/AuthContext';
-import Logo from './Logo';
+import { TouchableOpacity } from 'react-native';
+import { Header, Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
+import { Context as AuthContext} from '../context/AuthContext';
 import Images from '@assets/images';
+import Logo from './Logo';
 
-const NavBar = ({ navigation }) => {
-  const { signout } = useContext(AuthContext);
-
-  const open = () => {
-    navigation.openDrawer();
-  }
-
-  return (
-    <Header
-      backgroundColor="#004480"
-      barStyle="default"
-      centerComponent={<Logo size='sm' />}
-      leftContainerStyle={{ justifyContent: 'center' }}
-      rightContainerStyle={{ justifyContent: 'center' }}
-      leftComponent={
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Chat')}
-          style={{ position: 'absolute', }}>
-          <Icon
-            name='envelope'
-            size={25}
-            type='font-awesome'
-            color='white' />
-        </TouchableOpacity>
-      }
-      rightComponent={
-        <TouchableOpacity
-          onPress={() => open()}
-          style={{ position: 'absolute', }}>
-          <Icon
-            name='bars'
-            size={25}
-            type='font-awesome'
-            color='white' />
-        </TouchableOpacity>
-      }
-    />
-
-  )
+const NavBar = () => {
+    const { signout } = useContext(AuthContext);
+    const navigation = useNavigation();
+    return (
+        <Header
+            backgroundColor="#133C60" 
+            backgroundImage={Images.navBAr_Background}
+            centerComponent={ <Logo size='xs' /> }
+            barStyle="default"
+            leftContainerStyle={{ justifyContent: 'center' }}
+            rightContainerStyle={{ justifyContent: 'center' }}
+            leftComponent={
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('PatrolListScreen')}>
+                        <Icon
+                        name='home'
+                        type='font-awesome'
+                        color='white' />
+                </TouchableOpacity> 
+            }
+            rightComponent={
+                <TouchableOpacity
+                    onPress={() => signout()}>
+                        <Icon
+                        name='sign-out'
+                        type='font-awesome'
+                        color='white' />
+                </TouchableOpacity> 
+            }/>
+      
+    )
 }
 
 export default NavBar
