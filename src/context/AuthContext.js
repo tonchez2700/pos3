@@ -101,19 +101,26 @@ const signout = (dispatch) => {
 }
 
 const tryAuth = async (email, password, dispatch) => {
+    dispatch({ type: 'FETCHING_DATA', payload: { fetchingData: true } });
 
     const data = {
         email: email,
         password: password
     }
-    const response = await httpClient.post('/users/login', data)
-    const today = new Date();
-    const expirationTime = new Date(response.result.expiracion)
-    
-    if (response.succeeded) {
+    const response = await httpClient.post('auth/login', data)
+
+    if (response.status) {
         const user = {
-            expiracion: response.result.expire,
-            token: response.result.jwtToken,
+            userData: {
+                id: response.user.id,
+                role_id: response.user.role_id,
+                name: response.user.name,
+                paternal_surname: response.user.paternal_surname,
+                maternal_surname: response.user.maternal_surname,
+                picture: response.user.picture,
+                email: response.user.email
+            },
+            token: response.token
         }
         await AsyncStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: 'SIGNIN', payload: { user } });
