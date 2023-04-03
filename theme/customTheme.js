@@ -19,7 +19,7 @@ export const ItemListSytle = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         width: '100%',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: '#F2F2F2',
         borderColor: '#C4C4C4'
     },
@@ -46,6 +46,42 @@ export const ItemListSytle = StyleSheet.create({
     },
 })
 
+
+export const ShopListSytle = StyleSheet.create({
+
+    itemText: {
+        borderBottomWidth: 1,
+        fontSize: 24,
+        width: '100%',
+        padding: 5
+    },
+    itemTextTittle: {
+        color: 'white',
+        fontSize: 25,
+        textAlign: 'center',
+        padding: 8
+    },
+    tinyLogo: {
+        width: '60%',
+        alignSelf: 'center',
+        marginTop: 5,
+        height: undefined,
+        aspectRatio: 1,
+    },
+    inputCount: {
+        borderWidth: 1,
+        borderColor: '#CED4DA',
+        justifyContent: 'flex-end',
+        alignContent: 'flex-end',
+        alignItems: 'flex-end',
+        alignSelf: 'center'
+    },
+    ButtonBottom: {
+        backgroundColor: '#C42228',
+        borderRadius: 4,
+        paddingHorizontal: '10%'
+    },
+})
 export const ModalIngredientsSytle = StyleSheet.create({
 
     header: {
@@ -71,6 +107,38 @@ export const ModalIngredientsSytle = StyleSheet.create({
     },
     tinyLogo: {
         width: '90%',
+        alignSelf: 'center',
+        marginTop: 5,
+        height: undefined,
+        aspectRatio: 1,
+    },
+})
+
+export const ItemListAuxSytle = StyleSheet.create({
+
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: '100%',
+        backgroundColor: '#F2F2F2',
+        borderColor: '#C4C4C4'
+    },
+    itemText: {
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontSize: 18,
+        paddingVertical: 5
+    },
+    itemProduct: {
+        width: '20%',
+        borderRadius: 5,
+        padding: 5,
+        backgroundColor: '#26A9E1',
+        marginVertical: 10,
+        marginRight: 10
+    },
+    tinyLogo: {
+        width: '60%',
         alignSelf: 'center',
         marginTop: 5,
         height: undefined,

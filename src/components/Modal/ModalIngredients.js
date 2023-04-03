@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, Text, View, Modal, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Modal, ScrollView, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { Context as ProductsContext } from '../../context/ProductsContext';
 import { ModalIngredientsSytle } from '../../../theme/customTheme';
@@ -38,8 +38,14 @@ const ModalIngredients = ({ messages }) => {
                 presentationStyle="overFullScreen"
                 onRequestClose={() => isVisibleModal()}>
                 <View style={styles.viewWrapper}>
-                    <View style={styles.modalView}>
+                    <ScrollView
+                        nestedScrollEnabled
+                        style={styles.modalView}
+                        keyboardDismissMode="on-drag"
+                        keyboardShouldPersistTaps="handled"
+                        contentInsetAdjustmentBehavior="automatic">
                         <View style={ModalIngredientsSytle.header}>
+
                             <Text style={styles.text}>Sabores restantes: {state.ingredients_amount}</Text>
                             <Button
                                 onPress={() => console.log("pato")}
@@ -48,9 +54,8 @@ const ModalIngredients = ({ messages }) => {
                                 buttonStyle={{ backgroundColor: '#D00053', borderRadius: 4, }}
                             />
                         </View>
-
                         <IngredientsList
-                            data={state.ingredients}
+                            data={state.ingredient}
                         />
                         <View style={{ flexDirection: 'row', padding: 10, justifyContent: 'space-around' }}>
                             <Button
@@ -60,7 +65,7 @@ const ModalIngredients = ({ messages }) => {
                                 buttonStyle={[ModalIngredientsSytle.ButtonBottom, { backgroundColor: '#C42228' }]}
                             />
                             <Button
-                                onPress={() => { isVisibleModal()}}
+                                onPress={() => { isVisibleModal() }}
                                 titleStyle={{ fontSize: 14 }}
                                 title={'Reiniciar'}
                                 buttonStyle={[ModalIngredientsSytle.ButtonBottom, { backgroundColor: '#26A9E1' }]}
@@ -72,7 +77,7 @@ const ModalIngredients = ({ messages }) => {
                                 buttonStyle={[ModalIngredientsSytle.ButtonBottom, { backgroundColor: '#228032' }]}
                             />
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </Modal>
         </View>
@@ -114,14 +119,14 @@ const styles = StyleSheet.create({
     },
     modalView: {
         flex: 1,
-        justifyContent: "space-between",
         position: "absolute",
-        top: "26%",
+        top: "20%",
         left: "50%",
         elevation: 5,
         transform: [{ translateX: -(width * 0.4) },
-        { translateY: -90 }],
+        { translateY: -80 }],
         width: width * 0.8,
+        height: '80%',
         backgroundColor: "#F2F2F2",
         borderRadius: 5,
     },

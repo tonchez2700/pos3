@@ -4,8 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Context as ProductsContext } from '../../context/ProductsContext';
 import { Chip, Icon } from 'react-native-elements';
 import { ItemListSytle } from '../../../theme/customTheme';
-import { Context as AuthContext } from '../../context/AuthContext';
-import ModalAlert from '../Modal/ModalIngredients';
 
 
 const ItemsList = ({ data }) => {
@@ -18,7 +16,7 @@ const ItemsList = ({ data }) => {
                 <TouchableOpacity
                     key={item.id}
                     style={ItemListSytle.itemProduct}
-                    onPress={() => getIngredients(item, state.count)}>
+                    onPress={() => getIngredients(item)}>
                     <Image
                         style={ItemListSytle.tinyLogo}
                         source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}

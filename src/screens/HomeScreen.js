@@ -16,40 +16,35 @@ import { general } from '../../theme/customTheme';
 const HomeScreen = () => {
     const navigation = useNavigation();
 
-    const { state, getProducts, handleInputChange } = useContext(ProductsContext);
-    const data = [
-        { id: 1, name: 'Yogurth', color: 'red' },
-        { id: 2, name: 'Raspados', color: 'blue' },
-        { id: 3, name: 'Empleados', color: 'green' },
-        { id: 4, name: 'Uber Eats', color: 'purple' },
-        { id: 5, name: 'Didi Food', color: 'orange' },
-        { id: 6, name: 'Extras', color: 'orange' },
-        { id: 7, name: 'Suvenir', color: 'orange' },
-        { id: 8, name: 'Tarjeta de Regalo', color: 'orange' },
-        { id: 9, name: 'Promociones de nieves', color: 'orange' },
-    ];
+    const { state, getProducts, getTags, handleInputChange } = useContext(ProductsContext);
+
     const messages = {
         name: 'sasdas',
         description: 'sdasd',
     }
-
     // https://cpxproject.com/pos3
     useEffect(() => {
-        getProducts();
-    }, [])
+        const unsubscribe = navigation.addListener('focus', () => {
+            getTags();
+            getProducts();
+        });
+        return unsubscribe;
+    }, []);
 
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ flex: 1, padding: 5 }}>
-            <View >
-                <ChipList
-                    data={data}
-                />
-                <ItemsList
-                    data={state.products}
-                />
-            </View>
+            {
+                state.tagsProduct == undefined || state.products == undefined
+                    ?
+                    <View>
+                        <ChipList data={state.tagsProducts} />
+                        <ItemsList data={state.products} />
+                    </View>
+                    :
+                    null
+            }
             <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ width: '20%', fontSize: 14, color: '#131D26' }}>Cantidad</Text>
                 <View style={{ width: '80%' }}>

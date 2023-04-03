@@ -30,6 +30,9 @@ const WrapperInnerScreens = () => {
                     <DrawerItem
                         label="Inicio"
                         onPress={() => props.navigation.navigate('Inicio')}
+                    /><DrawerItem
+                        label="car"
+                        onPress={() => props.navigation.navigate('ShoppingCarScreen')}
                     />
                     <DrawerItem
                         label="Salir"
