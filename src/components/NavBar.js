@@ -13,6 +13,7 @@ const NavBar = (navigation) => {
         navigation.navigation.openDrawer();
     }
 
+    console.log(state.shopingProduct);
     return (
         <Header
             backgroundColor="#00ABE3"
@@ -30,9 +31,9 @@ const NavBar = (navigation) => {
                         type='font-awesome'
                         color='white' />
                     {
-                        state.ShoppingCarAmount != 0
+                        state.shopingProduct.length != 0
                             ?
-                            <Badge value={state.ShoppingCarAmount} status="error" containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
+                            <Badge value={state.shopingProduct.length} status="error" containerStyle={{ position: 'absolute', top: -4, right: -4, }} />
                             :
                             null
                     }

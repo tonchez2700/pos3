@@ -13,8 +13,8 @@ export const general = StyleSheet.create({
     },
 })
 
-export const ItemListSytle = StyleSheet.create({
 
+export const ItemListSytle = StyleSheet.create({
     container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -32,13 +32,13 @@ export const ItemListSytle = StyleSheet.create({
     itemProduct: {
         width: '20%',
         borderRadius: 5,
-        padding: 5,
+        padding: 1,
         backgroundColor: '#26A9E1',
         marginVertical: 10,
         marginRight: 10
     },
     tinyLogo: {
-        width: '60%',
+        width: '90%',
         alignSelf: 'center',
         marginTop: 5,
         height: undefined,
@@ -93,6 +93,11 @@ export const ModalIngredientsSytle = StyleSheet.create({
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5
     },
+    ButtonDirection: {
+        backgroundColor: '#ECECEC',
+        borderRadius: 4,
+        padding: 5,
+    },
     ButtonBottom: {
         backgroundColor: '#C42228',
         borderRadius: 4,
@@ -106,11 +111,27 @@ export const ModalIngredientsSytle = StyleSheet.create({
         marginRight: 10
     },
     tinyLogo: {
-        width: '90%',
-        alignSelf: 'center',
-        marginTop: 5,
+        width: '10%',
+        alignContent: 'center',
+        borderRadius: 10,
         height: undefined,
         aspectRatio: 1,
+    },
+    itemSelectIng: {
+        backgroundColor: '#ECECEC',
+        flexDirection: 'row',
+        padding: 5,
+        marginVertical: 2,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#26A9E1'
+    },
+    itemSelectContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        padding: 5
+
     },
 })
 

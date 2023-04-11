@@ -12,14 +12,20 @@ const initialState = {
     isVisible: false,
     isVisibleAlert: false,
     fetchingData: false,
-    ShoppingCar: [],
     ShoppingCarAmount: 0,
     count: 0,
     ingredients_amount: 0,
+    Direction: 'Abajo',
     tagsProducts: [],
     products: [],
     ingredients: [],
-    CategoryIndredients: []
+    ShoppingCar: [],
+    CategoryIndredients: [],
+    AddIngredientsList: [],
+    selectProduct: {},
+    shopingProduct: [],
+    row: [],
+
 
 }
 
@@ -92,16 +98,59 @@ const ProductsReducer = (state = initialState, action) => {
         case 'GET_INGREDIENTS':
             return {
                 ...state,
+                selectProduct: action.payload.products,
                 ingredients: action.payload.ingredients,
                 ingredients_amount: action.payload.ingredients_amount,
                 fetchingData: false,
                 isVisible: true
+            }
+        case 'ADD_INGREDIENTS_LIST':
+            let listIngredient
+            if (state.AddIngredientsList === undefined) {
+                listIngredient = [action.payload.aux];
+            } else {
+                listIngredient = [...state.AddIngredientsList, action.payload.aux]
+            }
+
+            return {
+                ...state,
+                AddIngredientsList: listIngredient,
+                fetchingData: false,
             }
         case 'SET_ANSWER':
             let typeValue = action.payload.type
             return {
                 ...state,
                 [typeValue]: action.payload.value
+            }
+        case 'SET_DIRECTION_CHANGE':
+            return {
+                ...state,
+                Direction: action.payload.value
+            }
+        case 'SET_SHOPPING_CAR':
+            let listProducts
+            if (state.shopingProduct === undefined) {
+                listProducts = [action.payload.data];
+            } else {
+                listProducts = [...state.shopingProduct, action.payload.data]
+            }
+            return {
+                ...state,
+                shopingProduct: listProducts,
+                fetchingData: false,
+                isVisible: false,
+                selectProduct: [],
+                AddIngredientsList: [],
+            }
+        case 'DELETE_INGREDIENT':
+            const newArray = state.AddIngredientsList.filter((obj, index) => {
+                return obj.Direction !== action.payload.type || index !== action.payload.value;
+            });
+
+            return {
+                ...state,
+                AddIngredientsList: newArray
             }
         case 'SET_TAG_PRODUCTS':
             return {
@@ -136,7 +185,6 @@ const isVisibleModal = (dispatch) => {
         })
     }
 }
-
 
 const isVisibleModalAlert = (dispatch) => {
     return async (message) => {
@@ -174,6 +222,7 @@ const getProducts = (dispatch) => {
         }
     }
 }
+
 const getTags = (dispatch) => {
     return async () => {
         try {
@@ -218,6 +267,7 @@ const getIngredientsByCategory = (dispatch) => {
                         'Authorization': `Bearer ${token}`,
                     }
                 );
+
                 dispatch({
                     type: 'GET_CATEGORY_INGREDIENTS',
                     payload: {
@@ -241,14 +291,13 @@ const getIngredientsByCategory = (dispatch) => {
 
 const getIngredients = (dispatch) => {
     return async (products) => {
-
         try {
             let ingredients = products.product_ingredients.filter(product => product.ingredient_id === null)
             let ingredients_amount = products.ingredients_amount
             dispatch({
                 type: 'GET_INGREDIENTS',
                 payload: {
-                    ingredients, ingredients_amount
+                    ingredients, ingredients_amount, products
                 }
             })
         } catch (error) {
@@ -264,26 +313,44 @@ const getIngredients = (dispatch) => {
     }
 }
 
-const store = (dispatch) => {
-    return async (questionnaire_id, question_id, option_id) => {
+const AddIngredient = (dispatch) => {
+    return async (ingredient, Direction) => {
         try {
-            const user = JSON.parse(await AsyncStorage.getItem('user'));
-            const token = user.token;
-            const id = user.userData.id;
-
-            const data = {
-                questionnaire_id: questionnaire_id,
-                question_id: question_id,
-                option_id: option_id
-            }
-
-            const response = await httpClient.post(`users/${id}/answers`, data,
-                {
-                    'Authorization': `Bearer ${token}`,
+            let aux = { ...ingredient, Direction: Direction }
+            dispatch({
+                type: 'ADD_INGREDIENTS_LIST',
+                payload: {
+                    aux,
                 }
-            );
-
+            })
         } catch (error) {
+            console.log(error);
+            dispatch({
+                type: 'SET_REQUEST_ERROR',
+                payload: {
+                    error: true,
+                    message: 'Por el momento el getUserQuestionnaires no está disponible, inténtelo mas tarde.'
+                }
+            })
+        }
+    }
+}
+
+const storeProduct = (dispatch) => {
+    return async (ingredient, selectProduct) => {
+        try {
+            let data = {
+                selectProduct
+            }
+            data.product_ingredients = ingredient
+            dispatch({
+                type: 'SET_SHOPPING_CAR',
+                payload: {
+                    data,
+                }
+            })
+        } catch (error) {
+            console.log(error);
             dispatch({
                 type: 'SET_REQUEST_ERROR',
                 payload: {
@@ -306,6 +373,28 @@ const handleInputChange = (dispatch) => {
     }
 }
 
+const setDirectionChange = (dispatch) => {
+    return async (value) => {
+        dispatch({
+            type: 'SET_DIRECTION_CHANGE',
+            payload: {
+                value
+            }
+        })
+    }
+}
+
+const deleteIngredient = (dispatch) => {
+    return async (value, type) => {
+        dispatch({
+            type: 'DELETE_INGREDIENT',
+            payload: {
+                value, type
+            }
+        })
+    }
+}
+
 const handleChipPress = (dispatch) => {
     return async (id, tagsProducts) => {
         const updatedState = [...tagsProducts];
@@ -316,9 +405,9 @@ const handleChipPress = (dispatch) => {
         updatedState.forEach((chip, index) => {
             if (index === chipIndex) {
                 chip.selected = !chip.selected;
-              } else {
+            } else {
                 chip.selected = false;
-              }
+            }
         });
         const result = updatedState.filter(item => item.selected == true);
         const user = JSON.parse(await AsyncStorage.getItem('user'));
@@ -352,7 +441,6 @@ const handleChipPress = (dispatch) => {
     }
 }
 
-
 export const { Context, Provider } = createDataContext(
     ProductsReducer,
     {
@@ -364,10 +452,12 @@ export const { Context, Provider } = createDataContext(
         getTags,
         getIngredients,
         getIngredientsByCategory,
+        setDirectionChange,
         handleInputChange,
         handleChipPress,
-        store
-
+        deleteIngredient,
+        AddIngredient,
+        storeProduct
     },
     initialState
 );

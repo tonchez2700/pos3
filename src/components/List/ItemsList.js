@@ -6,7 +6,8 @@ import { Chip, Icon } from 'react-native-elements';
 import { ItemListSytle } from '../../../theme/customTheme';
 
 
-const ItemsList = ({ data }) => {
+const 
+ItemsList = ({ data }) => {
     const navigation = useNavigation();
     const { state, getIngredients, } = useContext(ProductsContext);
 

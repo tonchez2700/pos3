@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { StyleSheet, Text, View, Modal, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Modal, ScrollView, Dimensions, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { Context as ProductsContext } from '../../context/ProductsContext';
 import { ModalIngredientsSytle } from '../../../theme/customTheme';
@@ -17,8 +17,10 @@ const ModalIngredients = ({ messages }) => {
         state,
         clearState,
         isVisibleModal,
+        deleteIngredient,
+        storeProduct,
+        setDirectionChange,
     } = useContext(ProductsContext);
-
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             clearState()
@@ -27,6 +29,7 @@ const ModalIngredients = ({ messages }) => {
         return unsubscribe;
     }, [navigation]);
 
+    // console.log(JSON.stringify(state.AddIngredientsList, null, 2));
 
     return (
         <View style={styles.body}>
@@ -45,14 +48,98 @@ const ModalIngredients = ({ messages }) => {
                         keyboardShouldPersistTaps="handled"
                         contentInsetAdjustmentBehavior="automatic">
                         <View style={ModalIngredientsSytle.header}>
-
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1 }}>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Abajo')}
+                                    containerStyle={{ marginLeft: '5%' }}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Abajo' ? { backgroundColor: "#D00053", marginRight: '2%' } : { marginRight: '2%' }]}>
+                                    <Text style={{ fontSize: 17, color: '#A7A7A7' }}>Abajo</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Medio')}
+                                    containerStyle={{ marginLeft: '5%' }}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Medio' ? { backgroundColor: "#D00053", marginRight: '2%' } : { marginRight: '2%' }]}>
+                                    <Text style={{ fontSize: 17, color: '#A7A7A7' }}>En medio</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Arriba')}
+                                    containerStyle={{ marginLeft: '5%' }}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Arriba' ? { backgroundColor: "#D00053" } : null]}  >
+                                    <Text style={{ fontSize: 17, color: '#A7A7A7' }}>Arriba</Text>
+                                </TouchableOpacity>
+                            </View>
                             <Text style={styles.text}>Sabores restantes: {state.ingredients_amount}</Text>
-                            <Button
-                                onPress={() => console.log("pato")}
-                                titleStyle={{ fontSize: 17 }}
-                                title={'Ingrediente Extra'}
-                                buttonStyle={{ backgroundColor: '#D00053', borderRadius: 4, }}
-                            />
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={[ModalIngredientsSytle.itemSelectContainer, state.Direction === 'Abajo' ? {
+                                borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5,
+                            } : { borderBottomWidth: 1, borderRightWidth: 1, }]}>
+                                <Text style={{ fontSize: 24 }}> Abajo: </Text>
+                                {
+                                    state.AddIngredientsList.map((item, index) => (
+                                        item.Direction == "Abajo"
+                                            ?
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={ModalIngredientsSytle.itemSelectIng}
+                                                onPress={() => deleteIngredient(index, 'Abajo')}>
+                                                <Image
+                                                    style={ModalIngredientsSytle.tinyLogo}
+                                                    source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
+                                                />
+                                                <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: 18, }}> {item.name} X</Text>
+                                            </TouchableOpacity>
+                                            : null
+                                    ))
+                                }
+                            </View>
+                            <View style={[ModalIngredientsSytle.itemSelectContainer, state.Direction === 'Medio' ? {
+                                borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5,
+                            } : { borderBottomWidth: 1, borderRightWidth: 1, }]}>
+                                <Text style={{ fontSize: 24 }}> Medio: </Text>
+                                {
+                                    state.AddIngredientsList.map((item, index) => (
+                                        item.Direction == "Medio"
+                                            ?
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={ModalIngredientsSytle.itemSelectIng}
+                                                onPress={() => deleteIngredient(index, 'Medio')}>
+                                                <Image
+                                                    style={ModalIngredientsSytle.tinyLogo}
+                                                    source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
+                                                />
+                                                <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: 18, }}> {item.name} X</Text>
+                                            </TouchableOpacity>
+                                            : null
+                                    ))
+                                }
+                            </View>
+                            <View style={[ModalIngredientsSytle.itemSelectContainer, state.Direction === 'Arriba' ? {
+                                borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5,
+                            } : {
+                                borderBottomWidth: 1,
+                                borderRightWidth: 1,
+                            }]}>
+                                <Text style={{ fontSize: 24 }}> Arriba: </Text>
+                                {
+                                    state.AddIngredientsList.map((item, index) => (
+                                        item.Direction == "Arriba"
+                                            ?
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={ModalIngredientsSytle.itemSelectIng}
+                                                onPress={() => deleteIngredient(index, 'Arriba')}>
+                                                <Image
+                                                    style={ModalIngredientsSytle.tinyLogo}
+                                                    source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
+                                                />
+                                                <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: 18, }}> {item.name} X</Text>
+                                            </TouchableOpacity>
+                                            : null
+                                    ))
+                                }
+                            </View>
                         </View>
                         <IngredientsList
                             data={state.ingredient}
@@ -71,7 +158,7 @@ const ModalIngredients = ({ messages }) => {
                                 buttonStyle={[ModalIngredientsSytle.ButtonBottom, { backgroundColor: '#26A9E1' }]}
                             />
                             <Button
-                                onPress={() => console.log("pato")}
+                                onPress={() => storeProduct(state.AddIngredientsList, state.selectProduct)}
                                 titleStyle={{ fontSize: 14 }}
                                 title={'Terminar'}
                                 buttonStyle={[ModalIngredientsSytle.ButtonBottom, { backgroundColor: '#228032' }]}
@@ -79,8 +166,8 @@ const ModalIngredients = ({ messages }) => {
                         </View>
                     </ScrollView>
                 </View>
-            </Modal>
-        </View>
+            </Modal >
+        </View >
     )
 }
 
