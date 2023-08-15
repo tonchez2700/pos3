@@ -3,16 +3,16 @@ import { TouchableOpacity, StatusBar, Text } from 'react-native';
 import { Header, Icon, Badge } from 'react-native-elements';
 import { Context as AuthContext } from '../context/AuthContext';
 import { Context as ProductsContext } from '../context/ProductsContext';
+import { useNavigation } from '@react-navigation/native';
 import Logo from './Logo';
 import Images from '@assets/images';
 
 const NavBar = (navigation) => {
     const { state } = useContext(ProductsContext);
-
+    const navigations = useNavigation();
     const open = () => {
         navigation.navigation.openDrawer();
     }
-
     console.log(state.shopingProduct);
     return (
         <Header
@@ -23,7 +23,7 @@ const NavBar = (navigation) => {
             rightContainerStyle={{ justifyContent: 'center' }}
             rightComponent={
                 <TouchableOpacity
-                    onPress={() => open()}
+                    onPress={() => navigations.navigate('ShoppingCarScreen')}
                     style={{ position: 'absolute' }}>
                     <Icon
                         name='shopping-cart'

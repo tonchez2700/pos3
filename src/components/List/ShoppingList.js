@@ -12,31 +12,21 @@ const ShoppingList = ({ data }) => {
 
     const navigation = useNavigation();
     const { state, getIngredients, } = useContext(ProductsContext);
-
     return (
         <View style={styles.table}>
             {data.map((item) => (
 
-                <View style={styles.row}>
-                    <View style={styles.cell}>
+                <View key={data.barcode} style={styles.row}>
+                    <View style={{ width: '20%', alignItems: 'center' }}>
                         <Image
-                            style={ShopListSytle.tinyLogo}
+                            style={{ width: 90, height: 90 }}
                             source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
                         />
                     </View>
-                    <View style={styles.cell}>
-                        <Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>{item.name}</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>${item.price_base}</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>{item.price_base}</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>${item.price_base}</Text>
-                    </View>
-                    <View style={styles.cell}>
+                    <Text style={{ width: '20%', color: 'black', fontSize: 20, textAlign: 'center' }}>{item.name}</Text>
+                    <Text style={{ width: '20%', color: 'black', fontSize: 20, textAlign: 'center' }}>1</Text>
+                    <Text style={{ width: '20%', color: 'black', fontSize: 20, textAlign: 'center' }}>${item.price_base}</Text>
+                    <View style={{ width: '20%', width: '20%', alignItems: 'center' }}>
                         <Icon
                             name='basket-remove'
                             size={35}
@@ -44,16 +34,6 @@ const ShoppingList = ({ data }) => {
                             color='red' />
                     </View>
                 </View>
-                // <TouchableOpacity
-                //     key={item.id}
-                //     style={ShopListSytle.itemProduct}
-                //     onPress={() => getIngredients(item, state.count)}>
-                //     <Image
-                //         style={ShopListSytle.tinyLogo}
-                //         source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
-                //     />
-                //     <Text style={ShopListSytle.itemText}>{item.name}</Text>
-                // </TouchableOpacity>
             ))
             }
         </View >
@@ -70,7 +50,8 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         borderBottomWidth: 1,
-        borderColor: '#D0D3D6'
+        borderColor: '#D0D3D6',
+        alignItems: 'center'
     },
     cell: {
         flex: 1,
@@ -78,3 +59,26 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 })
+
+{/* <View style={styles.cell}>
+<Image
+    style={{ width: 90, height: 90 }}
+    source={{ uri: `https://cpxproject.com/pos3/${item.url_image}` }}
+/>
+</View>
+<View style={styles.cell}>
+<Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>{item.name}</Text>
+</View>
+<View style={styles.cell}>
+<Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>1</Text>
+</View>
+<View style={styles.cell}>
+<Text style={{ color: 'black', fontSize: 20, textAlign: 'center' }}>${item.price_base}</Text>
+</View>
+<View style={styles.cell}>
+<Icon
+    name='basket-remove'
+    size={35}
+    type='material-community'
+    color='red' />
+</View> */}

@@ -15,7 +15,7 @@ const ModalIngredients = ({ messages }) => {
 
     const {
         state,
-        clearState,
+        clearStateDont,
         isVisibleModal,
         deleteIngredient,
         storeProduct,
@@ -23,7 +23,7 @@ const ModalIngredients = ({ messages }) => {
     } = useContext(ProductsContext);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            clearState()
+            clearStateDont()
 
         });
         return unsubscribe;
@@ -49,7 +49,7 @@ const ModalIngredients = ({ messages }) => {
                         contentInsetAdjustmentBehavior="automatic">
                         <View style={ModalIngredientsSytle.header}>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1 }}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => setDirectionChange('Abajo')}
                                     containerStyle={{ marginLeft: '5%' }}
                                     style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Abajo' ? { backgroundColor: "#D00053", marginRight: '2%' } : { marginRight: '2%' }]}>
@@ -66,15 +66,22 @@ const ModalIngredients = ({ messages }) => {
                                     containerStyle={{ marginLeft: '5%' }}
                                     style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Arriba' ? { backgroundColor: "#D00053" } : null]}  >
                                     <Text style={{ fontSize: 17, color: '#A7A7A7' }}>Arriba</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                             <Text style={styles.text}>Sabores restantes: {state.ingredients_amount}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={[ModalIngredientsSytle.itemSelectContainer, state.Direction === 'Abajo' ? {
-                                borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5,
-                            } : { borderBottomWidth: 1, borderRightWidth: 1, }]}>
-                                <Text style={{ fontSize: 24 }}> Abajo: </Text>
+                                borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5, flex: 1,
+                            } : { borderBottomWidth: 1, borderRightWidth: 1, flex: 1, }]}>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Abajo')}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Abajo' ? {
+                                        backgroundColor: "#D00053", width: '100%',
+                                    } :
+                                        { borderWidth: 1, width: '100%' }]}>
+                                    < Text style={[{ textAlign: 'center' }, state.Direction === 'Abajo' ? { fontSize: 17, color: 'white', } : { fontSize: 17, color: 'black' }]}>Abajo</Text>
+                                </TouchableOpacity>
                                 {
                                     state.AddIngredientsList.map((item, index) => (
                                         item.Direction == "Abajo"
@@ -96,7 +103,14 @@ const ModalIngredients = ({ messages }) => {
                             <View style={[ModalIngredientsSytle.itemSelectContainer, state.Direction === 'Medio' ? {
                                 borderColor: '#26A9E1', borderRightWidth: 5, borderBottomWidth: 5, borderLeftWidth: 5,
                             } : { borderBottomWidth: 1, borderRightWidth: 1, }]}>
-                                <Text style={{ fontSize: 24 }}> Medio: </Text>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Medio')}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Medio' ? {
+                                        backgroundColor: "#D00053", width: '100%',
+                                    } :
+                                        { borderWidth: 1, width: '100%' }]}>
+                                    < Text style={[{ textAlign: 'center' }, state.Direction === 'Medio' ? { fontSize: 17, color: 'white', } : { fontSize: 17, color: 'black' }]}>Medio</Text>
+                                </TouchableOpacity>
                                 {
                                     state.AddIngredientsList.map((item, index) => (
                                         item.Direction == "Medio"
@@ -121,7 +135,15 @@ const ModalIngredients = ({ messages }) => {
                                 borderBottomWidth: 1,
                                 borderRightWidth: 1,
                             }]}>
-                                <Text style={{ fontSize: 24 }}> Arriba: </Text>
+                                <TouchableOpacity
+                                    onPress={() => setDirectionChange('Arriba')}
+                                    containerStyle={{ marginLeft: '5%' }}
+                                    style={[ModalIngredientsSytle.ButtonDirection, state.Direction === 'Arriba' ? {
+                                        backgroundColor: "#D00053", width: '100%',
+                                    } :
+                                        { borderWidth: 1, width: '100%' }]}>
+                                    < Text style={[{ textAlign: 'center' }, state.Direction === 'Arriba' ? { fontSize: 17, color: 'white', } : { fontSize: 17, color: 'black' }]}>Arriba</Text>
+                                </TouchableOpacity>
                                 {
                                     state.AddIngredientsList.map((item, index) => (
                                         item.Direction == "Arriba"

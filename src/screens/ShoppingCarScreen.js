@@ -11,7 +11,7 @@ import tw from 'tailwind-react-native-classnames'
 
 const ShoppingCarScreen = () => {
     const navigation = useNavigation();
-    const { state, getProducts, handleInputChange } = useContext(ProductsContext);
+    const { state, clearState, handleInputChange } = useContext(ProductsContext);
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -19,27 +19,13 @@ const ShoppingCarScreen = () => {
 
             <View style={styles.table}>
                 <View style={styles.row}>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Producto</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Descripción</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Precio</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Cantidad</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Total</Text>
-                    </View>
-                    <View style={styles.cell}>
-                        <Text style={ShopListSytle.itemTextTittle}>Accion</Text>
-                    </View>
+                    <Text style={ShopListSytle.itemTextTittle}>Producto</Text>
+                    <Text style={ShopListSytle.itemTextTittle}>Descripción</Text>
+                    <Text style={ShopListSytle.itemTextTittle}>Cantidad</Text>
+                    <Text style={ShopListSytle.itemTextTittle}>Total</Text>
                 </View>
                 <ShoppingList
-                    data={state.products}
+                    data={state.shopingProduct}
                 />
 
                 <View style={{ justifyContent: 'flex-end', padding: 10, }}>
@@ -64,14 +50,14 @@ const ShoppingCarScreen = () => {
                         </View>
                         {/* #EFF2F7 */}
                         <View style={{ flexDirection: 'column', width: '20%' }}>
-                            <Text style={[ShopListSytle.itemText, { textAlign: 'center' }]}>$ 240</Text>
-                            <Text style={[ShopListSytle.itemText, { textAlign: 'center' }]}>$ 100</Text>
-                            <Text style={[ShopListSytle.itemText, { fontWeight: '700', textAlign: 'center' }]}>$ 140</Text>
+                            <Text style={[ShopListSytle.itemText, { textAlign: 'center' }]}>$ {state.shopingProduct.reduce((suma, obj) => suma + obj.price_base, 0)}</Text>
+                            <Text style={[ShopListSytle.itemText, { textAlign: 'center' }]}>$ 0</Text>
+                            <Text style={[ShopListSytle.itemText, { fontWeight: '700', textAlign: 'center' }]}>$ {state.shopingProduct.reduce((suma, obj) => suma + obj.price_base, 0)}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Button
-                            onPress={() => isVisibleModal()}
+                            onPress={() => { clearState(), navigation.goBack() }}
                             titleStyle={{ fontSize: 25 }}
                             title={'Cancelar'}
                             buttonStyle={[ShopListSytle.ButtonBottom, { backgroundColor: '#C42228' }]}
@@ -98,6 +84,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     row: {
+        backgroundColor: '#26A9E1',
         flexDirection: 'row',
     },
     cell: {

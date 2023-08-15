@@ -51,15 +51,15 @@ export const ShopListSytle = StyleSheet.create({
 
     itemText: {
         borderBottomWidth: 1,
-        fontSize: 24,
+        fontSize: 26,
         width: '100%',
         padding: 5
     },
     itemTextTittle: {
-        color: 'white',
-        fontSize: 25,
+        width: '20%',
         textAlign: 'center',
-        padding: 8
+        fontSize: 25,
+        color: 'white'
     },
     tinyLogo: {
         width: '60%',
@@ -67,6 +67,7 @@ export const ShopListSytle = StyleSheet.create({
         marginTop: 5,
         height: undefined,
         aspectRatio: 1,
+        backgroundColor: 'red'
     },
     inputCount: {
         borderWidth: 1,

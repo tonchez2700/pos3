@@ -32,6 +32,11 @@ const initialState = {
 const ProductsReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'CLEAR_STATE_DONT':
+            return {
+                ...initialState,
+                shopingProduct: state.shopingProduct
+            }
         case 'CLEAR_STATE':
             return {
                 ...initialState,
@@ -116,6 +121,7 @@ const ProductsReducer = (state = initialState, action) => {
                 ...state,
                 AddIngredientsList: listIngredient,
                 fetchingData: false,
+                ShoppingCarAmount: state.ShoppingCarAmount + 1
             }
         case 'SET_ANSWER':
             let typeValue = action.payload.type
@@ -147,10 +153,11 @@ const ProductsReducer = (state = initialState, action) => {
             const newArray = state.AddIngredientsList.filter((obj, index) => {
                 return obj.Direction !== action.payload.type || index !== action.payload.value;
             });
-
+            let indexAux = state.ShoppingCarAmount - 1
             return {
                 ...state,
-                AddIngredientsList: newArray
+                AddIngredientsList: newArray,
+                ShoppingCarAmount: state.ShoppingCarAmount - 1
             }
         case 'SET_TAG_PRODUCTS':
             return {
@@ -168,6 +175,11 @@ const ProductsReducer = (state = initialState, action) => {
 const clearState = (dispatch) => {
     return () => {
         dispatch({ type: 'CLEAR_STATE' });
+    }
+}
+const clearStateDont = (dispatch) => {
+    return () => {
+        dispatch({ type: 'CLEAR_STATE_DONT' });
     }
 }
 
@@ -194,7 +206,6 @@ const isVisibleModalAlert = (dispatch) => {
         })
     }
 }
-
 const getProducts = (dispatch) => {
     return async () => {
         try {
@@ -339,9 +350,8 @@ const AddIngredient = (dispatch) => {
 const storeProduct = (dispatch) => {
     return async (ingredient, selectProduct) => {
         try {
-            let data = {
-                selectProduct
-            }
+
+            const data = selectProduct
             data.product_ingredients = ingredient
             dispatch({
                 type: 'SET_SHOPPING_CAR',
@@ -445,6 +455,7 @@ export const { Context, Provider } = createDataContext(
     ProductsReducer,
     {
         clearState,
+        clearStateDont,
         clearStateIndredients,
         isVisibleModal,
         isVisibleModalAlert,

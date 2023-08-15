@@ -4,13 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import { Context as ProductsContext } from '../../context/ProductsContext';
 import { ItemListSytle } from '../../../theme/customTheme';
 import Aux from './Auxd';
+import { log } from 'react-native-reanimated';
 
 
 const IngredientsList = ({ data }) => {
 
     const navigation = useNavigation();
     const { state, clearStateIndredients, getIngredientsByCategory, AddIngredient } = useContext(ProductsContext);
-    const [seccionIndex, setSeccionIndex] = useState(0);
+
     useEffect(() => {
         clearStateIndredients()
         if (state.ingredients != '') {
@@ -21,7 +22,6 @@ const IngredientsList = ({ data }) => {
     }, [state.ingredients])
 
     // console.log(JSON.stringify(state.AddIngredientsList, null, 2));
-
     return (
         <View style={{ flex: 1, padding: 5 }}>
             {
@@ -29,18 +29,17 @@ const IngredientsList = ({ data }) => {
                     ?
                     <View>
                         {
-                            seccionIndex <= state.CategoryIndredients.length - 1
+                            state.ShoppingCarAmount <= state.CategoryIndredients.length - 1
                                 ?
                                 <View>
-                                    <Text style={{ fontSize: 24 }}>Selecciona: {state.CategoryIndredients[seccionIndex].name}</Text>
+                                    <Text style={{ fontSize: 24 }}>Selecciona: {state.CategoryIndredients[state.ShoppingCarAmount].name}</Text>
                                     <View style={ItemListSytle.container}>
                                         {
-                                            state.CategoryIndredients[seccionIndex].products.map((item) => (
+                                            state.CategoryIndredients[state.ShoppingCarAmount].products.map((item) => (
                                                 <TouchableOpacity
                                                     key={item.id}
                                                     style={ItemListSytle.itemProduct}
                                                     onPress={() => {
-                                                        setSeccionIndex(seccionIndex + 1)
                                                         AddIngredient(item, state.Direction)
                                                     }}>
                                                     <Image
